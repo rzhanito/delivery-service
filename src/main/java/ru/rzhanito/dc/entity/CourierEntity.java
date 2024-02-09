@@ -7,14 +7,18 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
-
-@Entity
-@Table(name = "courier")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "courier")
+@SQLDelete(sql = "UPDATE courier SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
+
 public class CourierEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,4 +32,6 @@ public class CourierEntity {
     private Boolean isBusy;
     @OneToMany(mappedBy = "courier", cascade = CascadeType.ALL)
     private List<OrderEntity> orders;
+    @Column(name = "deleted")
+    private boolean deleted = Boolean.FALSE;
 }

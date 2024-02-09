@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.rzhanito.dc.entity.CourierEntity;
-import ru.rzhanito.dc.entity.OrderEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class CourierResponse {
     private String name;
-    private Boolean isBusy;
+    private boolean isBusy;
     private List<OrderResponse> orders;
 
     public static CourierResponse toModel(CourierEntity courier){
