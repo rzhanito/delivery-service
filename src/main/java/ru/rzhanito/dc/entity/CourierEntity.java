@@ -33,5 +33,5 @@ public class CourierEntity {
     @OneToMany(mappedBy = "courier", cascade = CascadeType.ALL)
     private List<OrderEntity> orders;
     @Column(name = "deleted")
-    private boolean deleted = Boolean.FALSE;
+    private boolean deleted = false;
 }

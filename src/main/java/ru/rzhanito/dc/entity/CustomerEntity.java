@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE customer SET deleted = true WHERE id = ?")
 public class CustomerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +31,6 @@ public class CustomerEntity {
     private String email;
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<OrderEntity> orderHistory;
+    @Column(name = "deleted")
+        private boolean deleted = false;
 }

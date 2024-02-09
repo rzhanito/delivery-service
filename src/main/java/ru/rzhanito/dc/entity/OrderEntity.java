@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 import ru.rzhanito.dc.response.OrderStatus;
 
 @Entity
@@ -14,6 +15,7 @@ import ru.rzhanito.dc.response.OrderStatus;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE orders SET deleted = true WHERE id = ?")
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,4 +37,7 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
+
+    @Column(name = "deleted")
+    private Boolean deleted = false;
 }
