@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -14,6 +16,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE restaurant SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class RestaurantEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,4 +34,5 @@ public class RestaurantEntity {
     private List<OrderEntity> currentOrders;
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<OrderEntity> completedOrders;
+    private boolean deleted = false;
 }

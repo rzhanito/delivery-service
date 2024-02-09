@@ -33,11 +33,8 @@ public class OrderEntity {
     @ManyToOne
     @JoinColumn(name = "courier_id")
     private CourierEntity courier;
-
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
-
-    @Column(name = "deleted")
     private Boolean deleted = false;
 }

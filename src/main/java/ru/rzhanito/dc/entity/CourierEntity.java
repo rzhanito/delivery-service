@@ -32,6 +32,5 @@ public class CourierEntity {
     private Boolean isBusy;
     @OneToMany(mappedBy = "courier", cascade = CascadeType.ALL)
     private List<OrderEntity> orders;
-    @Column(name = "deleted")
     private boolean deleted = false;
 }

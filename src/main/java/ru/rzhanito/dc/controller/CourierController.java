@@ -35,8 +35,9 @@ public class CourierController {
     }
 
     @GetMapping("get_all")
-    public List<CourierResponse> getAllCouriers() throws EntityNotFoundException {
-        return courierService.getAllCouriers();
+    public ResponseEntity<List<CourierResponse>> getAllCouriers() throws EntityNotFoundException {
+        List<CourierResponse> couriers = courierService.getAllCouriers();
+        return ResponseEntity.ok(couriers);
     }
 
     @DeleteMapping("delete")

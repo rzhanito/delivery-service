@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface CourierRepo extends JpaRepository<CourierEntity, Long> {
     Optional<CourierEntity> findByName(String name);
+    Optional<CourierEntity> findFirstByIsBusyFalse();
 }
