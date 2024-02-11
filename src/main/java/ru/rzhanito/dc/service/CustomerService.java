@@ -1,16 +1,14 @@
 package ru.rzhanito.dc.service;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.rzhanito.dc.entity.CustomerEntity;
-import ru.rzhanito.dc.entity.OrderEntity;
 import ru.rzhanito.dc.exception.EntityAlreadyExistsException;
 import ru.rzhanito.dc.exception.EntityNotFoundException;
 import ru.rzhanito.dc.repo.CustomerRepo;
+import ru.rzhanito.dc.repo.OrderRepo;
+import ru.rzhanito.dc.repo.RestaurantRepo;
 import ru.rzhanito.dc.response.CustomerResponse;
-import ru.rzhanito.dc.response.OrderResponse;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +18,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CustomerService {
     private final CustomerRepo customerRepo;
-    private final RestaurantService restaurantService;
+    private final RestaurantRepo restaurantRepo;
+    private final OrderRepo orderRepo;
 
     public CustomerResponse getCustomer(String name) throws EntityNotFoundException {
         Optional<CustomerEntity> existingCustomer = customerRepo.findByName(name);
@@ -48,7 +47,25 @@ public class CustomerService {
         }
     }
 
-    public void makeOrder(OrderEntity order){
-
+    public CustomerResponse changeCustomerPartially(String name, String newName, String email) throws EntityNotFoundException {
+        Optional<CustomerEntity> existingCustomer = customerRepo.findByName(name);
+        if(existingCustomer.isPresent()){
+            if(newName != null) existingCustomer.get().setName(newName);
+            if(email != null) existingCustomer.get().setEmail(email);
+            customerRepo.save(existingCustomer.get());
+            return CustomerResponse.toModel(existingCustomer.get());
+        } else{
+            throw new EntityNotFoundException("Клиента " + name + " не существует.");
+        }
     }
+
+    public void deleteCustomerByName(String name) throws EntityNotFoundException {
+        Optional<CustomerEntity> existingCustomer = customerRepo.findByName(name);
+        if(existingCustomer.isPresent()){
+            customerRepo.delete(existingCustomer.get());
+        }else {
+            throw new EntityNotFoundException("Клиента " + name + " не существует.");
+        }
+    }
+
 }

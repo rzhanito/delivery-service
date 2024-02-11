@@ -16,6 +16,7 @@ public class OrderResponse {
     private String customerName;
 
     public static OrderResponse toModel(OrderEntity order){
-        return new OrderResponse(order.getName(), order.getRestaurant().getName(), order.getStatus().name(), order.getCourier().getName(), order.getCustomer().getName());
+        String courierName = order.getCourier() != null ? order.getCourier().getName() : null;
+        return new OrderResponse(order.getName(), order.getRestaurant().getName(), order.getStatus().name(), courierName, order.getCustomer().getName());
     }
 }

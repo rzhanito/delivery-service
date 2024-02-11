@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -31,8 +32,10 @@ public class RestaurantEntity {
     @Size(max = 100, message = "Локация ресторана не может быть больше 100 символов")
     private String location;
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @Where(clause = "status IN ('REGISTERED', 'IN_PROCESS')")
     private List<OrderEntity> currentOrders;
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @Where(clause = "status = 'DELIVERED'")
     private List<OrderEntity> completedOrders;
     private boolean deleted = false;
 }
